@@ -1,0 +1,27 @@
+<h1>Editing page_change</h1>
+
+<%= error_messages_for :page_change %>
+
+<% form_for(@page_change) do |f| %>
+  <p>
+    <b>Edit session</b><br />
+    <%= f.text_field :edit_session_id %>
+  </p>
+
+  <p>
+    <b>Content</b><br />
+    <%= f.text_area :content %>
+  </p>
+
+  <p>
+    <b>Marker element</b><br />
+    <%= f.text_field :marker_element_id %>
+  </p>
+
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @page_change %> |
+<%= link_to 'Back', page_changes_path %>

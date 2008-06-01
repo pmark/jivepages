@@ -1,0 +1,18 @@
+<p>
+  <b>Edit session:</b>
+  <%=h @page_change.edit_session_id %>
+</p>
+
+<p>
+  <b>Content:</b>
+  <%=h @page_change.content %>
+</p>
+
+<p>
+  <b>Marker element:</b>
+  <%=h @page_change.marker_element_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_page_change_path(@page_change) %> |
+<%= link_to 'Back', page_changes_path %>

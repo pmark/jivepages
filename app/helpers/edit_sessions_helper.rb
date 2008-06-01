@@ -1,0 +1,2 @@
+module EditSessionsHelper
+end

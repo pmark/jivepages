@@ -1,0 +1,18 @@
+<h1>Listing rows</h1>
+
+<table>
+  <tr>
+  </tr>
+
+<% for row in @rows %>
+  <tr>
+    <td><%= link_to 'Show', row %></td>
+    <td><%= link_to 'Edit', edit_row_path(row) %></td>
+    <td><%= link_to 'Destroy', row, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New row', new_row_path %>

@@ -1,0 +1,13 @@
+<% remote_form_for :box, :url => boxes_path do |f| %>
+  <%= f.text_area :content, :rows => 4, :cols => 28  %>
+  <br/>
+  <p>target cell ID:<br/>
+    <%= f.text_field :cell_id %>
+    <br/>
+    <small>TODO: click cell to choose target</small>
+  </p>
+  
+  <%= hidden_field_tag "box[kind]", "EmbeddedVideo" %>
+  
+  <%= submit_tag "Add video" %>
+<% end %>

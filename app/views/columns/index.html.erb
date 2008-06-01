@@ -1,0 +1,26 @@
+<h1>Listing cells</h1>
+
+<table>
+  <tr>
+    <th>Box</th>
+    <th>Size</th>
+    <th>Full content</th>
+    <th>Position</th>
+  </tr>
+
+<% for cell in @cells %>
+  <tr>
+    <td><%=h cell.box_id %></td>
+    <td><%=h cell.size %></td>
+    <td><%=h cell.full_content %></td>
+    <td><%=h cell.position %></td>
+    <td><%= link_to 'Show', cell %></td>
+    <td><%= link_to 'Edit', edit_cell_path(cell) %></td>
+    <td><%= link_to 'Destroy', cell, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New cell', new_cell_path %>

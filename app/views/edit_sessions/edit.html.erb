@@ -1,0 +1,22 @@
+<h1>Editing edit_session</h1>
+
+<%= error_messages_for :edit_session %>
+
+<% form_for(@edit_session) do |f| %>
+  <p>
+    <b>User</b><br />
+    <%= f.text_field :user_id %>
+  </p>
+
+  <p>
+    <b>Jivepage</b><br />
+    <%= f.text_field :jivepage_id %>
+  </p>
+
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @edit_session %> |
+<%= link_to 'Back', edit_sessions_path %>

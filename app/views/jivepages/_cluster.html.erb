@@ -1,0 +1,8 @@
+<% if parent_row.all_children_count > 0 %>
+<ul id="<%= row_dom_id(parent_row) %>-cluster" class="cluster">
+  <% for row in parent_row.children %>
+  <%= render :partial => "jivepages/row", :locals => {:row => row} %>
+  <% end %>
+</ul>
+<% else %>
+<% end %>

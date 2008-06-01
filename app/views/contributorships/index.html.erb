@@ -1,0 +1,22 @@
+<h1>Listing contributorships</h1>
+
+<table>
+  <tr>
+    <th>User</th>
+    <th>Jivepage</th>
+  </tr>
+
+<% for contributorship in @contributorships %>
+  <tr>
+    <td><%=h contributorship.user_id %></td>
+    <td><%=h contributorship.jivepage_id %></td>
+    <td><%= link_to 'Show', contributorship %></td>
+    <td><%= link_to 'Edit', edit_contributorship_path(contributorship) %></td>
+    <td><%= link_to 'Destroy', contributorship, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New contributorship', new_contributorship_path %>

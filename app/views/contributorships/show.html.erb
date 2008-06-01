@@ -1,0 +1,13 @@
+<p>
+  <b>User:</b>
+  <%=h @contributorship.user_id %>
+</p>
+
+<p>
+  <b>Jivepage:</b>
+  <%=h @contributorship.jivepage_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_contributorship_path(@contributorship) %> |
+<%= link_to 'Back', contributorships_path %>

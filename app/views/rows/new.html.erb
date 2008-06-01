@@ -1,0 +1,11 @@
+<h1>New row</h1>
+
+<% form_for(@row) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.submit "Create" %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', rows_path %>

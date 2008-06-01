@@ -1,0 +1,28 @@
+<% 
+first ||= true
+yui_classes = ''
+unless row.grid_type == row::FULL
+  yui_classes << " yui-u "
+  yui_classes << " first " if first 
+end
+%>
+<div id="<%= row_dom_id(row) %>" class="row <%= yui_classes %>">
+  
+<% if row.children.size.zero? or row.grid_type == row::FULL %>
+  <p><%= row.dom_id %>: <%= row.yui_grid_type %></p>
+  <% parent_boxes ||= [] %>
+  <% all_boxes = row.boxes + parent_boxes %>
+  <%= render :partial => "jivepages/box", :collection => all_boxes %>
+<% else %>
+    <% first = true %>
+    <% for row in row.children %>
+      <div class="<%= row.yui_grid_type %>">
+        <%= render :partial => "jivepages/row", 
+            :locals => {:row => row, :first => first, 
+            :parent_boxes => row.boxes} %>      
+      </div>
+      <% first = false %>
+    <% end %>  
+<% end %>
+  
+</div>

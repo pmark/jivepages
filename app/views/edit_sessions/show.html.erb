@@ -1,0 +1,13 @@
+<p>
+  <b>User:</b>
+  <%=h @edit_session.user_id %>
+</p>
+
+<p>
+  <b>Jivepage:</b>
+  <%=h @edit_session.jivepage_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_edit_session_path(@edit_session) %> |
+<%= link_to 'Back', edit_sessions_path %>

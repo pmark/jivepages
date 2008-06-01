@@ -1,0 +1,31 @@
+<h1>New box</h1>
+
+<%= error_messages_for :box %>
+
+<% form_for(@box) do |f| %>
+  <p>
+    <b>Jivepage</b><br />
+    <%= f.text_field :jivepage_id %>
+  </p>
+
+  <p>
+    <b>Cell</b><br />
+    <%= f.text_field :cell_id %>
+  </p>
+
+  <p>
+    <b>Content</b><br />
+    <%= f.text_area :content %>
+  </p>
+
+  <p>
+    <b>Position</b><br />
+    <%= f.text_field :position %>
+  </p>
+
+  <p>
+    <%= f.submit "Create" %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', boxes_path %>

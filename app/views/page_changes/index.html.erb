@@ -1,0 +1,24 @@
+<h1>Listing page_changes</h1>
+
+<table>
+  <tr>
+    <th>Edit session</th>
+    <th>Content</th>
+    <th>Marker element</th>
+  </tr>
+
+<% for page_change in @page_changes %>
+  <tr>
+    <td><%=h page_change.edit_session_id %></td>
+    <td><%=h page_change.content %></td>
+    <td><%=h page_change.marker_element_id %></td>
+    <td><%= link_to 'Show', page_change %></td>
+    <td><%= link_to 'Edit', edit_page_change_path(page_change) %></td>
+    <td><%= link_to 'Destroy', page_change, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New page_change', new_page_change_path %>

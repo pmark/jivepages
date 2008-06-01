@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  box_id: 1
+  size: MyString
+  full_content: MyText
+  position: 1
+
+two:
+  box_id: 1
+  size: MyString
+  full_content: MyText
+  position: 1

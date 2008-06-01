@@ -1,0 +1,43 @@
+<div id="structure_controls">
+  <% remote_form_for(@jivepage,
+      :html => {:id => "structure_form"}) do |f| %>
+  <h5>Jivepages</h5>
+  <fieldset>  
+    <legend>Layout</legend>
+    <ul>
+      <li>
+        <%= f.radio_button :width, Jivepage::COMPACT_LAYOUT %> 
+        <label for="jivepage_width_compact">compact</label>
+      </li>
+      <li>
+        <%= f.radio_button :width, Jivepage::WIDE_LAYOUT %> 
+        <label for="jivepage_width_wide">wide</label>
+      </li>
+      <li>
+        <%= f.radio_button :width, Jivepage::FLUID_LAYOUT %> 
+        <label for="jivepage_width_fluid">fluid</label>
+      </li>
+    </ul>  
+  </fieldset>
+  
+  <fieldset>  
+    <legend>Sidebar</legend>
+    <ul>
+      <li>
+        <%= f.radio_button :sidebar, Jivepage::NO_SIDEBAR %> 
+        <label for="jivepage_sidebar_none">none</label>
+      </li>
+      <li>
+        <%= f.radio_button :sidebar, Jivepage::LEFT_SIDEBAR %> 
+        <label for="jivepage_sidebar_left">left</label>
+      </li>
+      <li>
+        <%= f.radio_button :sidebar, Jivepage::RIGHT_SIDEBAR %> 
+        <label for="jivepage_sidebar_right">right</label>
+      </li>
+    </ul>  
+  </fieldset>
+  
+  <%= submit_tag "Save", :id => "btn_save_structure" %>
+  <% end %>    
+</div>

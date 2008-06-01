@@ -1,0 +1,27 @@
+<% content_for(:header) do %>
+  <h2>New Page</h2>
+<% end %>
+
+
+<blockquote>
+<%= error_messages_for :jivepage %>
+
+<% form_for(@jivepage) do |f| %>
+  <p>
+    <b>What is the title of your new page?</b><br />
+    <%= f.text_field :title %>
+  </p>
+
+  <p>
+    <%= f.submit "create" %> or 
+    <%= link_to 'cancel', jivepages_path %>
+  </p>
+<% end %>
+</blockquote>
+
+<% content_for(:footer) do %>
+  <blockquote>
+  <%= link_to 'All pages', jivepages_path %>
+  </blockquote>
+<% end %>
+

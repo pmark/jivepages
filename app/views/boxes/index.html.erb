@@ -1,0 +1,26 @@
+<h1>Listing boxes</h1>
+
+<table>
+  <tr>
+    <th>Jivepage</th>
+    <th>Cell</th>
+    <th>Content</th>
+    <th>Position</th>
+  </tr>
+
+<% for box in @boxes %>
+  <tr>
+    <td><%=h box.jivepage_id %></td>
+    <td><%=h box.cell_id %></td>
+    <td><%=h box.content %></td>
+    <td><%=h box.position %></td>
+    <td><%= link_to 'Show', box %></td>
+    <td><%= link_to 'Edit', edit_box_path(box) %></td>
+    <td><%= link_to 'Destroy', box, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New box', new_box_path %>

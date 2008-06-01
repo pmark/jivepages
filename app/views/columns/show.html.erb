@@ -1,0 +1,23 @@
+<p>
+  <b>Box:</b>
+  <%=h @cell.box_id %>
+</p>
+
+<p>
+  <b>Size:</b>
+  <%=h @cell.size %>
+</p>
+
+<p>
+  <b>Full content:</b>
+  <%=h @cell.full_content %>
+</p>
+
+<p>
+  <b>Position:</b>
+  <%=h @cell.position %>
+</p>
+
+
+<%= link_to 'Edit', edit_cell_path(@cell) %> |
+<%= link_to 'Back', cells_path %>

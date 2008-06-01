@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+  "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <% @jivepage ||= Jivepage.new({:sidebar => "none"}) %>
+  <title><%= h(@jivepage ? @jivepage.title : controller.action_name) %> : jivepages</title>
+  <% asset_path = "/plugin_assets/jivepages" %>
+  <link rel="stylesheet" href="<%= asset_path %>/stylesheets/reset-fonts-grids.yui251.css" type="text/css">
+  <link rel="stylesheet" href="<%= asset_path %>/stylesheets/jivepages.css" type="text/css">
+  <%= javascript_include_tag :defaults %>
+  <%= javascript_include_tag "#{asset_path}/javascripts/util", "#{asset_path}/javascripts/busy_signal", "#{asset_path}/javascripts/jivepages" %>
+</head>
+
+<body>
+  <div id="<%= @jivepage.layout || "doc" %>" class="jivepage <%= @jivepage.skin %> <%= controller.action_name %>">
+    <%= render :partial => "jivepages/structure_controls" if controller.action_name == "edit" %>
+    <div id="hd">
+      <%= yield :header %>
+    </div>
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <%= yield %>
+        </div>
+      </div>
+      <div class="yui-b" id="sidebar" style="<%= 'display:none' unless @jivepage.sidebar? %>">
+        <%= yield :sidebar %>
+      </div>
+    </div>
+    <div id="ft">
+      <%= yield :footer %>
+    </div>
+    <div id="debug"></div>
+  </div>
+</body>
+</html>

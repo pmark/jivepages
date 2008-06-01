@@ -1,0 +1,16 @@
+<% remote_form_for :box, :url => boxes_path do |f| %>
+<!--%= text_area_tag "box[content]", box.content, :style => "width:100%" %--> 
+
+
+<% editor_dom_id = "box_#{box.id}_in_place_editor" %>
+<% content = box.content.blank? ? 'click to change' : box.content %>
+<span class="in_place_editor_field" id="<%= editor_dom_id %>"><%= content %></span><script type="text/javascript">
+//<![CDATA[
+new Ajax.InPlaceEditor('<%= editor_dom_id %>', '/boxes/set_box_content/<%= box.id %>', 
+    {rows:5, onFormCustomization:Jivepage.add_token_to_form})
+//]]>
+</script>  
+
+<% end %>
+
+

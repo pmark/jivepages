@@ -1,0 +1,2 @@
+class EmbeddedVideo < Cell
+end

@@ -1,0 +1,12 @@
+<% return unless header_row and header_row.jivepage %>
+<% remote_form_for(header_row.jivepage,
+    :html => {:id => "header_form"}) do |f| %>
+<%= hidden_field_tag "jivepage_id", header_row.jivepage.id %>
+<% end %>
+
+<% content_for(:header) do %>
+  <% header_row.full_content ||= header_row.jivepage.title %>
+  <%= render :partial => "/rows/grid", :locals => {:row => header_row} %>
+<% end %>
+
+

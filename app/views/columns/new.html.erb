@@ -1,0 +1,31 @@
+<h1>New cell</h1>
+
+<%= error_messages_for :cell %>
+
+<% form_for(@cell) do |f| %>
+  <p>
+    <b>Box</b><br />
+    <%= f.text_field :box_id %>
+  </p>
+
+  <p>
+    <b>Size</b><br />
+    <%= f.text_field :size %>
+  </p>
+
+  <p>
+    <b>Full content</b><br />
+    <%= f.text_area :full_content %>
+  </p>
+
+  <p>
+    <b>Position</b><br />
+    <%= f.text_field :position %>
+  </p>
+
+  <p>
+    <%= f.submit "Create" %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', cells_path %>

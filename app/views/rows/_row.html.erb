@@ -1,0 +1,25 @@
+<% return unless row %>
+
+<% first ||= false %>
+<div id="<%= dom_id(row) %>" class="row <%= row.yui_grid_type %> <%= 'first' if 
+first %>">
+
+  <% unless (no_tool ||= false) %>
+    <%= tool_shed(row) %>
+  <% end %>
+
+  <% if row.columns.size == 1 %>
+  <%= render :partial => "columns/content", :locals => {:column => row.columns.first} %>
+
+  <% else %>
+  <div id="<%= dom_id(row, "content") %>" class="parent_content">
+    <% first = true %>  
+    <% for column in row.columns %>
+      <%= render :partial => "/columns/column", 
+          :locals => {:column => column, :first => first} %>
+      <% first = false %>
+    <% end %>
+  </div>
+  <% end %>
+  
+</div>

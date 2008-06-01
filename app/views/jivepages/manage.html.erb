@@ -1,0 +1,22 @@
+<h2><%= @jivepage.heading %></h2>
+<%= error_messages_for :jivepage %>
+<% form_for(@jivepage,
+    :html => {:id => "edit_form"}) do |f| %>
+<p>
+  <b>Title</b><br />
+  <%= f.text_field :title %>
+  <%= f.submit "Change title" %>
+</p>
+
+<%= render :partial => "marker_buffer" %>
+<%= render :partial => "editable_page", :locals => {:f => f} %>
+<% end %>
+
+<%= render :partial => "contributors" %>
+
+<blockquote>
+<%= link_to 'View this page', @jivepage %> <br/>
+<%= link_to 'All pages', jivepages_path %>
+</blockquote>
+
+<div id="status_bar"/>

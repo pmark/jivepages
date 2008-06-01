@@ -1,0 +1,24 @@
+<% remote_form_for(@jivepage,
+    :html => {:id => "structure_form"}) do |f| %>
+<% end %>
+<% content_for(:header) do %>
+  <h1><%= h(@jivepage.title) %></h1>
+<% end %>
+
+<%= render :partial => "/rows/row", :collection => @jivepage.rows.in_body %>
+
+<% content_for(:footer) do %>
+  <blockquote>
+  <% if @jivepage.editable_by?(page_user) %>
+  <%= link_to('Edit this page', edit_jivepage_path(@jivepage)) %>
+  <br/>
+  <%= link_to('Delete this page', jivepage_path(@jivepage), :method => :delete,
+      :confirm => 'Are you sure?') %>
+  <br/>
+  <% end %>
+  <%= link_to 'New page', new_jivepage_path %>
+  <br/>
+  <%= link_to 'All pages', jivepages_path %>
+  </blockquote>
+<% end %>
+

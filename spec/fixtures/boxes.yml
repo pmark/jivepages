@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  jivepage_id: 1
+  cell_id: 1
+  content: MyText
+  position: 1
+
+two:
+  jivepage_id: 1
+  cell_id: 1
+  content: MyText
+  position: 1

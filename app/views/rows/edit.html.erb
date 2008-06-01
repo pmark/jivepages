@@ -1,0 +1,12 @@
+<h1>Editing row</h1>
+
+<% form_for(@row) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @row %> |
+<%= link_to 'Back', rows_path %>

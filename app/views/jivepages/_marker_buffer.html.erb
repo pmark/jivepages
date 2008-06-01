@@ -1,0 +1,6 @@
+<div id="marker_buffer"></div>
+<% form_for(:page_change, nil,
+      :url => new_page_change_path,
+      :html => {:id => "marker_buffer_form", :style => "display:none"}) do |f| %>
+  <%= f.hidden_field :content %>  
+<% end %>

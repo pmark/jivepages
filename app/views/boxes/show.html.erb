@@ -1,0 +1,23 @@
+<p>
+  <b>Jivepage:</b>
+  <%=h @box.jivepage_id %>
+</p>
+
+<p>
+  <b>Cell:</b>
+  <%=h @box.cell_id %>
+</p>
+
+<p>
+  <b>Content:</b>
+  <%=h @box.content %>
+</p>
+
+<p>
+  <b>Position:</b>
+  <%=h @box.position %>
+</p>
+
+
+<%= link_to 'Edit', edit_box_path(@box) %> |
+<%= link_to 'Back', boxes_path %>
