@@ -8,6 +8,18 @@ class Column < ActiveRecord::Base
     "column-#{self.id}"
   end
 
+  def move_boxes_to(target_column)
+    logger.debug "moving boxes in column #{self.id} to column #{target_column.id}"
+    count = 0
+    self.boxes.each do |box| 
+      logger.debug "moving box #{box.id} to column #{target_column.id}"
+      box.move_to_column(target_column)
+      count += 1
+    end
+    self.boxes.reload        
+    count
+  end
+  
   def anchor_to_sibling(sibling, position)
     self.jivepage = sibling.jivepage
     self.grid_type = sibling.grid_type if sibling.sidebar? or 
@@ -23,10 +35,10 @@ class Column < ActiveRecord::Base
     true
   end
   
-  def create_box(cell_kind=nil, position=nil, options={})
+  def create_box!(cell_kind=nil, position=nil, options={})
     options[:cell_kind] ||= "textblock"
     options[:cell_kind] = options[:cell_kind].classify
-    self.boxes.create(options)
+    self.boxes.create!(options)
   end
   
   def inspect_boxes

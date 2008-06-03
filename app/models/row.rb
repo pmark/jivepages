@@ -2,8 +2,11 @@ class Row < ActiveRecord::Base
   belongs_to :jivepage
   acts_as_list :scope => 'jivepage_id = #{jivepage_id} AND section = #{section}'
   has_many :columns, :dependent => :destroy
-  before_save :set_defaults
-  after_save :create_first_column
+
+  before_validation :set_defaults
+  after_save :adjust_columns
+
+  validates_presence_of :jivepage, :grid_type, :section
   
   
   # grid types
@@ -42,77 +45,12 @@ class Row < ActiveRecord::Base
     YUI_GRID_TYPES[type]
   end
   
-  def change_grid_type(new_type)
-    self.update_attribute(:grid_type, new_type)  
-    mod_count = compute_child_mod_count
-    if mod_count < 0
-      merge_children(mod_count.abs)
-    elsif mod_count > 0
-      insert_units(mod_count)
-    end      
-    self.reload
+  def change_grid_type(new_type, force=false)
+    return unless force or new_type != self.grid_type
+    update_attribute(:grid_type, new_type)  
+    adjust_columns
   end
   
-  def compute_child_mod_count
-    target_child_count = case self.grid_type
-    when FULL
-      0
-    when HALVES, LEFT, RIGHT
-      2
-    when THIRDS
-      3
-    else
-      0
-    end
-    (target_child_count - self.children.size)
-  end
-  
-  # Create child columns 
-  def insert_units(add_count)
-    # move root boxes down into left column if there's 1 child
-    
-    add_count.times do
-      self.jivepage.columns.create(
-        :grid_type => UNIT).move_to_child_of(self)
-    end
-  end
-  
-  def merge_children(prune_count)
-    puts "\nMERGE(#{prune_count}): #{inspect_boxes}\n\n"
-    prune_count = children.size if prune_count > children.size
-    return unless prune_count > 0
-    prune_count.times do
-      if self.children.size == 2
-        # no grid types should ever use only 2 columns
-        merge_children_to_self
-        break
-      end
-
-      dying_column = self.children.last
-      target_column = dying_column.siblings.last
-      dying_column.move_boxes_to(target_column)
-      puts "\nDeleting #{dying_column.dom_id}..."
-      dying_column.destroy
-    end
-
-    puts "\n--DONE(#{prune_count}): children: #{inspect_boxes}\n\n"
-  end
-
-  def move_boxes_to(target_column)
-    target_column.boxes.each do |box| 
-      puts "Moving #{box.dom_id} to parent #{target_column.dom_id}"
-      box.move_to_column(target_column)
-    end
-  end
-  
-  # TODO: this makes no sense anymore
-  def merge_children_to_self
-    self.children.each do |column|
-      column.move_boxes_to(self)
-      column.destroy
-    end
-  end
-
   def sidebar?
     self.grid_type == SIDEBAR
   end
@@ -125,16 +63,62 @@ class Row < ActiveRecord::Base
     self.grid_type == FOOTER
   end
   
+  def adjust_columns
+    mod_count = compute_child_mod_count
+    if mod_count < 0
+      merge_columns(mod_count.abs)
+    elsif mod_count > 0
+      insert_columns(mod_count)
+    end      
+  end
   
+  
+  #
+  #
+  #
   protected
     def set_defaults
       self.grid_type ||= FULL
+      self.section ||= BODY
     end
     
-    def create_first_column
-      return unless columns.blank?
-      self.columns.create
+    # Compare current grid_type to actual number of columns and return difference.
+    # A negative number means there are too many columns.
+    def compute_child_mod_count
+      target_child_count = case self.grid_type
+      when FULL
+        1
+      when HALVES, LEFT, RIGHT
+        2
+      when THIRDS
+        3
+      else
+        0
+      end
+      (target_child_count - self.columns.size)
     end
+
+    # Create a number of columns.
+    def insert_columns(add_count)
+      add_count.times do
+        new_column = self.columns.create(:jivepage => jivepage)
+        new_column.create_box!("textblock", 1, 
+            :content => "Click here to change text.")
+      end
+    end
+
+    # Collapse a number of columns into their previous siblings.
+    def merge_columns(prune_count)
+      prune_count = columns.size if prune_count > columns.size
+      return unless prune_count > 0
+      prune_count.times do
+        break unless columns.size > 1
+        dying_column = columns.pop
+        previous_sibling = columns.last
+        dying_column.move_boxes_to(previous_sibling)
+        dying_column.destroy
+      end
+    end    
 end
 
 

@@ -92,28 +92,6 @@ class ColumnsController < ApplicationController
     end
   end
   
-  def format
-    parent_column = Column.find params[:id]
-    grid_type = params[:grid_type]
-    if grid_type == parent_column.grid_type
-      render :nothing => true
-      return
-    end
-    
-    parent_column.change_grid_type(grid_type)
-    
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => parent_column.to_xml }
-      format.js do
-        render :update do |page|
-          page.replace parent_column.dom_id, :partial => "/columns/grid", 
-              :locals => {:column => parent_column}
-        end
-      end      
-    end
-  end
-  
   def new
     @column = Column.new
     respond_to do |format|

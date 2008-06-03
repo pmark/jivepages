@@ -1,44 +1,73 @@
 class RowsController < ApplicationController
-  # GET /rows
-  # GET /rows.xml
+  helper :jivepages
+  
+  
+  def update
+    @row = Row.find(params[:id])
+
+    respond_to do |format|
+      if @row.update_attributes(params[:row])
+        flash[:notice] = 'Row was successfully updated.'
+        format.html { redirect_to(@row) }
+        format.xml  { head :ok }
+      else
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => @row.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+    
+  def format_shouldnt_be_necessary_just_use_update
+    @row = Row.find params[:id]
+    grid_type = params[:grid_type]
+    if grid_type == @row.grid_type
+      render :nothing => true
+      return
+    end
+    
+    @row.change_grid_type(grid_type)
+    
+    respond_to do |format|
+      format.html
+      format.xml  { render :xml => @row.to_xml }
+      format.js do
+        render :update do |page|
+          page.replace @row.dom_id, :partial => "/rows/row", 
+              :locals => {:column => @row}
+        end
+      end      
+    end
+  end
+  
   def index
     @rows = Row.find(:all)
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.xml  { render :xml => @rows }
     end
   end
 
-  # GET /rows/1
-  # GET /rows/1.xml
   def show
     @row = Row.find(params[:id])
-
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.xml  { render :xml => @row }
     end
   end
 
-  # GET /rows/new
-  # GET /rows/new.xml
   def new
     @row = Row.new
-
     respond_to do |format|
-      format.html # new.html.erb
+      format.html
       format.xml  { render :xml => @row }
     end
   end
 
-  # GET /rows/1/edit
   def edit
     @row = Row.find(params[:id])
   end
 
-  # POST /rows
-  # POST /rows.xml
   def create
     @row = Row.new(params[:row])
 
@@ -54,25 +83,6 @@ class RowsController < ApplicationController
     end
   end
 
-  # PUT /rows/1
-  # PUT /rows/1.xml
-  def update
-    @row = Row.find(params[:id])
-
-    respond_to do |format|
-      if @row.update_attributes(params[:row])
-        flash[:notice] = 'Row was successfully updated.'
-        format.html { redirect_to(@row) }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @row.errors, :status => :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /rows/1
-  # DELETE /rows/1.xml
   def destroy
     @row = Row.find(params[:id])
     @row.destroy

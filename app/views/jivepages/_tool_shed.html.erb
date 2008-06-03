@@ -1,5 +1,6 @@
-<div id="original_top_tool_shed" style="display:none">
-  <span id="top_tool">    
+<!-- This gets moved to a row on demand -->
+<div id="original_column_tool_shed" style="display:none">
+  <span id="insert_tool">    
     <table id="insert_menu" cellspacing="0" cellpadding="0">
       <tr class="off">
         <th><a href="#">INSERT</a></th>
@@ -19,25 +20,33 @@
   </span>
 </div>
 
-<div id="original_left_tool_shed" style="display:none">
-  <span id="left_tool">
-    <table id="format_menu" cellspacing="0" cellpadding="0">
-      <tr class="off">
-        <th><a href="#">FORMAT</a></th>
-        <td class="<%= Row::FULL %>"><a href="#">full</a></td>
-        <td class="<%= Row::HALVES %>"><a href="#">halves</a></td>
-        <td class="<%= Row::THIRDS %>"><a href="#">thirds</a></td>
-        <td class="<%= Row::LEFT %>"><a href="#">left</a></td>
-        <td class="<%= Row::RIGHT %>"><a href="#">right</a></td>
-      </tr>
-    </table>
-    <table id="left_menu" cellspacing="0" cellpadding="0">
-      <tr class="off">
-        <th><a href="#">ROW</a></th>
-        <td class=""><%= link_to_function "insert above", "Row.insert_above()" %></td>
-        <td class=""><%= link_to_function "insert below", "Row.insert_below()" %></td>
-        <td class=""><%= link_to_function "delete", "Row.delete_row()" %></td>
-      </tr>    
-    </table>
-  </span>
+<div id="original_row_tool_shed" style="display:none">
+  <div id="all_row_tools">    
+    <span id="top_tool">    
+      <table id="top_menu" cellspacing="0" cellpadding="0">
+        <tr class="off">
+          <th><a href="#">FORMAT</a></th>
+          <td class="<%= Row::FULL %>"><a href="#">full</a></td>
+          <td class="<%= Row::HALVES %>"><a href="#">halves</a></td>
+          <td class="<%= Row::THIRDS %>"><a href="#">thirds</a></td>
+          <td class="<%= Row::LEFT %>"><a href="#">left</a></td>
+          <td class="<%= Row::RIGHT %>"><a href="#">right</a></td>
+        </tr>
+      </table>
+    </span>
+    <span id="left_tool">    
+      <table id="left_menu" cellspacing="0" cellpadding="0">
+        <tr><td class="up"><%= link_to_function "^^", "Row.move_up()" %></td></tr>
+        <tr><td class="delete"><%= link_to_function "[X]", "Row.delete_row()" %></td></tr>
+        <tr><td class="down"><%= link_to_function "vv", "Row.move_down()" %></td></tr>
+      </table>
+    </span>
+    <span id="bottom_tool">    
+      <table id="bottom_menu" cellspacing="0" cellpadding="0">
+        <tr class="">
+          <td class=""><%= link_to_function "insert below", "Row.insert_below()" %></td>
+        </tr>    
+      </table>
+    </span>
+  </div>
 </div>

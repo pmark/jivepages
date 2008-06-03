@@ -38,8 +38,7 @@ class Jivepage < ActiveRecord::Base
   end
   
   def setup
-    row = self.rows.create!(:section => "body")
-    row.columns.first.create_box("textblock", 1, :content => "Click this text to change it.")
+    row = self.rows.create!
   end
   
   def self.uses_users?
