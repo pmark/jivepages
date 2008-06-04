@@ -15,22 +15,32 @@
   <div id="<%= @jivepage.layout || "doc" %>" class="jivepage <%= @jivepage.skin %> <%= controller.action_name %>">
     <%= render :partial => "jivepages/structure_controls" if controller.action_name == "edit" %>
     <div id="hd">
-      <%= yield :header %>
+      <div id="header_section" class="yui-b">
+        <%= yield :header %>
+      </div>      
     </div>
     <div id="bd">
       <div id="yui-main">
-        <div class="yui-b">
+        <div id="body_section" class="yui-b">
           <%= yield %>
         </div>
       </div>
-      <div class="yui-b" id="sidebar" style="<%= 'display:none' unless @jivepage.sidebar? %>">
+      <div class="yui-b" id="sidebar_section" style="<%= 'display:none' unless @jivepage.sidebar? %>">
         <%= yield :sidebar %>
       </div>
     </div>
     <div id="ft">
-      <%= yield :footer %>
+      <div id="footer_section" class="yui-b">
+        <%= yield :footer %>
+      </div>      
     </div>
     <div id="debug"></div>
   </div>
+  
+  <% remote_form_for(@jivepage,
+      :html => {:id => "hidden_form", :style => "display:none"}) do |f| %>
+    <%= f.hidden_field :id %>
+  <% end %>
+  
 </body>
 </html>

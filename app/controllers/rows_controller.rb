@@ -16,7 +16,15 @@ class RowsController < ApplicationController
       end
     end
   end
-    
+  
+  def up
+    move(params[:id], Row::UP)
+  end
+  
+  def down
+    move(params[:id], Row::DOWN)
+  end
+      
   def format_shouldnt_be_necessary_just_use_update
     @row = Row.find params[:id]
     grid_type = params[:grid_type]
@@ -69,27 +77,87 @@ class RowsController < ApplicationController
   end
 
   def create
-    @row = Row.new(params[:row])
+    begin
+      jivepage = Jivepage.find(params[:jivepage_id])
+      row = jivepage.rows.create!(params[:row])
+      anchor_row = Row.find(params[:anchor_row_id])      
+      row.insert_at(anchor_row.position + 1)
 
-    respond_to do |format|
-      if @row.save
+      respond_to do |format|
         flash[:notice] = 'Row was successfully created.'
-        format.html { redirect_to(@row) }
-        format.xml  { render :xml => @row, :status => :created, :location => @row }
-      else
+        format.html { redirect_to(row) }
+        format.xml  { render :xml => row, :status => :created, :location => row }
+        format.js   { 
+          render :update do |page|
+            page.insert_html :after, anchor_row.dom_id, 
+                :partial => "rows/row", :locals => {:row => row}
+            page.call "Row.init", row.dom_id
+          end
+        }      
+      end
+    rescue
+      row.errors.add_to_base($!)
+      respond_to do |format|
         format.html { render :action => "new" }
-        format.xml  { render :xml => @row.errors, :status => :unprocessable_entity }
+        format.xml  { render :xml => row.errors, :status => :unprocessable_entity }
+        format.js   { 
+          render :update do |page|
+            page.alert "Sorry, there was a problem adding a row.  #{$!}"
+          end
+        }
       end
     end
   end
 
   def destroy
-    @row = Row.find(params[:id])
-    @row.destroy
+    begin
+      row = Row.find(params[:id])
+      row.destroy
 
-    respond_to do |format|
-      format.html { redirect_to(rows_url) }
-      format.xml  { head :ok }
+      respond_to do |format|
+        format.html { redirect_to(rows_url) }
+        format.xml  { head :ok }
+        format.js   { render :nothing => true }      
+      end
+    rescue
+      format.html { render :action => "edit" }
+      format.xml  { render :xml => row.errors, :status => :unprocessable_entity }
+      format.js   { 
+        render :update do |page|
+          page.alert "Sorry, there was a problem removing that row."
+        end
+      }
     end
   end
+  
+  protected    
+    def move(row_id, dir)
+      begin
+        row = Row.find(row_id)
+        was_first = row.first?
+        raise "Unable to reposition." unless row.move(dir)
+
+        respond_to do |format|
+          flash[:notice] = 'Row was successfully created.'
+          format.html { redirect_to(row) }
+          format.xml  { render :xml => row, :status => :created, :location => row }
+          format.js   { 
+            render :update do |page|
+              page.call "Row.fix_first"
+            end
+          }
+        end
+      rescue
+        row.errors.add_to_base($!)
+        respond_to do |format|
+          format.html { render :action => "new" }
+          format.xml  { render :xml => row.errors, :status => :unprocessable_entity }
+          format.js   { 
+            render :update do |page|
+              page.alert "Sorry, there was a problem moving that row.  #{$!}"
+            end
+          }
+        end
+      end
+    end
 end

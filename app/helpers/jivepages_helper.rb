@@ -23,7 +23,8 @@ module JivepagesHelper
   end
   
   def rows_for(section, jivepage)
-    render :partial => "/rows/row", :collection => jivepage.rows.send("in_#{section.to_s}")
+    render :partial => "/rows/row", 
+        :collection => jivepage.rows.send("in_#{section.to_s}")
   end
   
   def grid_for(row)

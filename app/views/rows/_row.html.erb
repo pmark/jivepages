@@ -1,6 +1,6 @@
 <% return unless row %>
 
-<% first ||= false %>
+<% first = row.first? %>
 <div id="<%= dom_id(row) %>" class="row <%= row.yui_grid_type %> <%= 'first' if 
 first %>">
 

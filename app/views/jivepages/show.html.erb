@@ -1,11 +1,8 @@
-<% remote_form_for(@jivepage,
-    :html => {:id => "structure_form"}) do |f| %>
-<% end %>
 <% content_for(:header) do %>
-  <h1><%= h(@jivepage.title) %></h1>
+  <%= rows_for(:header, @jivepage) %>
 <% end %>
 
-<%= render :partial => "/rows/row", :collection => @jivepage.rows.in_body %>
+<%= rows_for(:body, @jivepage) %>
 
 <% content_for(:footer) do %>
   <blockquote>

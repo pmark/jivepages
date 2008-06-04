@@ -1,6 +1,6 @@
 # NOT SURE IF THIS WORKS...
 resources :jivepages
-resources :rows
+resources :rows, :member => {:up => :put, :down => :put}
 resources :columns
 resources :boxes
 resources :page_changes

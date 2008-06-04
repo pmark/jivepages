@@ -5,7 +5,7 @@ class Jivepage < ActiveRecord::Base
   # belongs_to :user
   has_many :contributorships, :dependent => :delete_all
   has_many :contributors, :through => :contributorships, :source => :user
-  has_many :rows do 
+  has_many :rows, :order => "position ASC" do 
     def in_body 
       find_all_by_section(Row::BODY) 
     end

@@ -144,6 +144,29 @@ describe Row, "with THIRDS format undergoing a grid_type change" do
       @row.save
     }.should_not change(Box, :count)
   end    
-
 end
+
+describe Row, "being moved" do
+  before(:each) do
+    @jivepage = Jivepage.create
+    @row1 = @jivepage.rows.create!()
+    @row2 = @jivepage.rows.create!()
+  end
+
+  it "should have 2 rows" do
+    @row1.position.should == 1
+    @row2.position.should == 2
+  end
+  
+  it "should call move_lower when moving down" do
+    @row1.should_receive(:move_lower)
+    @row1.move(Row::DOWN)
+  end
+
+  it "should call move_higher when moving up" do
+    @row1.should_receive(:move_higher)
+    @row1.move(Row::UP)
+  end
+end
+
 

@@ -36,15 +36,15 @@
     </span>
     <span id="left_tool">    
       <table id="left_menu" cellspacing="0" cellpadding="0">
-        <tr><td class="up"><%= link_to_function "^^", "Row.move_up()" %></td></tr>
-        <tr><td class="delete"><%= link_to_function "[X]", "Row.delete_row()" %></td></tr>
-        <tr><td class="down"><%= link_to_function "vv", "Row.move_down()" %></td></tr>
+        <tr><td class="up"><%= link_to_function "^^", "Row.up()" %></td></tr>
+        <tr><td class="delete"><%= link_to_function "[X]", "Row.delete()" %></td></tr>
+        <tr><td class="down"><%= link_to_function "vv", "Row.down()" %></td></tr>
       </table>
     </span>
     <span id="bottom_tool">    
       <table id="bottom_menu" cellspacing="0" cellpadding="0">
         <tr class="">
-          <td class=""><%= link_to_function "insert below", "Row.insert_below()" %></td>
+          <td class=""><%= link_to_function "Add row", "Row.insert_below()" %></td>
         </tr>    
       </table>
     </span>

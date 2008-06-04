@@ -1,7 +1,7 @@
 class Row < ActiveRecord::Base
   belongs_to :jivepage
-  acts_as_list :scope => 'jivepage_id = #{jivepage_id} AND section = #{section}'
-  has_many :columns, :dependent => :destroy
+  acts_as_list :scope => 'jivepage_id = #{jivepage_id} AND section = \'#{section}\''
+  has_many :columns, :dependent => :destroy, :order => "position ASC"
 
   before_validation :set_defaults
   after_save :adjust_columns
@@ -23,6 +23,10 @@ class Row < ActiveRecord::Base
   FOOTER = "footer"
   SIDEBAR = "sidebar"
   BODY = "body"
+  
+  # movements
+  DOWN = 1
+  UP = 2
 
   # css class names
   YUI_GRID_TYPES = {
@@ -70,6 +74,11 @@ class Row < ActiveRecord::Base
     elsif mod_count > 0
       insert_columns(mod_count)
     end      
+  end
+  
+  def move(dir)
+    move_message = (dir == DOWN ? :move_lower : :move_higher)
+    self.send(move_message)
   end
   
   
