@@ -5,10 +5,9 @@
 <table>
 <% for jivepage in @jivepages %>
   <tr>
-    <td><%=h jivepage.title %></td>
-    <td><%= link_to 'View', jivepage %></td>
-    <td>| <%= link_to 'Edit', edit_jivepage_path(jivepage) %></td>
-    <td><%= link_to image_tag(plugin_image_path("trashcanicon.gif")), jivepage, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td style="font-size:150%"><%= link_to(jivepage.title || "Untitled", jivepage) %></td>
+    <td style="width:5em; text-align:right"><%= link_to 'edit', edit_jivepage_path(jivepage) %></td>
+    <td style="width:2em; text-align:right"><%= link_to image_tag(plugin_image_path("trashcanicon.gif")), jivepage, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
 </table>

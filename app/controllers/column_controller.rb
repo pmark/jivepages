@@ -39,7 +39,7 @@ class ColumnsController < ApplicationController
           render :update do |page|
             page.insert_html position, sibling.dom_id, 
                 :partial => "/columns/grid", :locals => {:column => @column}
-            page.call "Column.init_columns", @column.dom_id
+            page.call "Column.setup_columns", @column.dom_id
             page.call "Tool.close_all"
           end
         end

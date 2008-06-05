@@ -27,6 +27,16 @@ module JivepagesHelper
         :collection => jivepage.rows.send("in_#{section.to_s}")
   end
   
+  def columns_for(row)
+    if row.columns.size == 1
+      render :partial => "columns/content", :locals => {:column => row.columns.first}
+    else
+      content_tag(:div, :id => dom_id(row, "content"), :class => "column_list") do
+        render :partial => "/columns/column", :collection => row.columns
+      end
+    end
+  end
+  
   def grid_for(row)
     render :partial => "/rows/grid", :collection => row.columns
   end
@@ -37,9 +47,6 @@ module JivepagesHelper
   
   def page_user
     defined?(current_user) ? current_user : nil
-  end
-  
-  def xxx
   end
   
   # type can be :row or :column

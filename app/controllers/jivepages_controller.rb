@@ -56,7 +56,7 @@ class JivepagesController < ApplicationController
         format.xml  { head :ok }
         format.js {
           render :update do |page|
-            page.call "Jivepage.init", @jivepage.to_json, true
+            page.call "Jivepage.setup", @jivepage.to_json, true
           end
         }
       else

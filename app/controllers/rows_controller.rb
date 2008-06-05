@@ -8,11 +8,34 @@ class RowsController < ApplicationController
     respond_to do |format|
       if @row.update_attributes(params[:row])
         flash[:notice] = 'Row was successfully updated.'
+        
+        
         format.html { redirect_to(@row) }
         format.xml  { head :ok }
+        format.js   {
+          column_content = if @row.columns.size == 1
+            @column = @row.columns.first
+            render_to_string(:template => "columns/_content.html.erb")
+          else
+            @row.columns.collect do |column|
+              @column = column
+              render_to_string(:template => "columns/_column.html.erb")
+            end.join("\n")
+          end
+          
+          render :update do |page|
+            page.replace_html dom_id(@row, "container"), column_content
+            page.call "Row.change_grid_type", @row.dom_id, @row.yui_grid_type
+          end
+        }        
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @row.errors, :status => :unprocessable_entity }
+        format.js   {
+          render :update do |page|
+            page.alert("Sorry, there was a problem: #{@row.errors.full_messages}")
+          end
+        }
       end
     end
   end
@@ -91,7 +114,9 @@ class RowsController < ApplicationController
           render :update do |page|
             page.insert_html :after, anchor_row.dom_id, 
                 :partial => "rows/row", :locals => {:row => row}
-            page.call "Row.init", row.dom_id
+            page.call "Row.setup", row.dom_id
+            # page.call "Element.scrollTo", row.dom_id
+            # page.visual_effect :highlight, row.dom_id
           end
         }      
       end
@@ -112,21 +137,28 @@ class RowsController < ApplicationController
   def destroy
     begin
       row = Row.find(params[:id])
+      if row.first? and row.last?
+        raise "This is the only row in the #{row.section} section."
+      end
       row.destroy
 
       respond_to do |format|
         format.html { redirect_to(rows_url) }
         format.xml  { head :ok }
-        format.js   { render :nothing => true }      
+        format.js   { 
+          page.call "Row.fix_first", row.section
+        } 
       end
     rescue
-      format.html { render :action => "edit" }
-      format.xml  { render :xml => row.errors, :status => :unprocessable_entity }
-      format.js   { 
-        render :update do |page|
-          page.alert "Sorry, there was a problem removing that row."
-        end
-      }
+      respond_to do |format|
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => row.errors, :status => :unprocessable_entity }
+        format.js   { 
+          render :update do |page|
+            page.alert "#{$!}"
+          end
+        }
+      end
     end
   end
   
@@ -138,12 +170,14 @@ class RowsController < ApplicationController
         raise "Unable to reposition." unless row.move(dir)
 
         respond_to do |format|
-          flash[:notice] = 'Row was successfully created.'
+          flash[:notice] = 'Row was successfully moved.'
           format.html { redirect_to(row) }
           format.xml  { render :xml => row, :status => :created, :location => row }
           format.js   { 
             render :update do |page|
-              page.call "Row.fix_first"
+              page.call "Row.fix_first", row.section
+              page.call "Row.unhover_all"
+              page.call "Element.scrollTo", row.dom_id
             end
           }
         end

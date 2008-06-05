@@ -3,12 +3,12 @@
 <html>
 <head>
   <% @jivepage ||= Jivepage.new({:sidebar => "none"}) %>
-  <title><%= h(@jivepage ? @jivepage.title : controller.action_name) %> : jivepages</title>
+  <title><%= h(@jivepage && @jivepage.title ? @jivepage.title : controller.action_name) %> : jivepages</title>
   <% asset_path = "/plugin_assets/jivepages" %>
   <link rel="stylesheet" href="<%= asset_path %>/stylesheets/reset-fonts-grids.yui251.css" type="text/css">
   <link rel="stylesheet" href="<%= asset_path %>/stylesheets/jivepages.css" type="text/css">
   <%= javascript_include_tag :defaults %>
-  <%= javascript_include_tag "#{asset_path}/javascripts/util", "#{asset_path}/javascripts/busy_signal", "#{asset_path}/javascripts/jivepages" %>
+  <%= javascript_include_tag "#{asset_path}/javascripts/util", "#{asset_path}/javascripts/jivepages" %>  
 </head>
 
 <body>
@@ -41,6 +41,5 @@
       :html => {:id => "hidden_form", :style => "display:none"}) do |f| %>
     <%= f.hidden_field :id %>
   <% end %>
-  
 </body>
 </html>

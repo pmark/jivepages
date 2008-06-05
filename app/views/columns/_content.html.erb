@@ -1,3 +1,4 @@
+<% column ||= @column %>
 <div id="<%= dom_id(column, "content") %>" class="column">
   <%= tool_shed(column) %>
   <%= render :partial => "boxes/box", :collection => column.boxes %>  

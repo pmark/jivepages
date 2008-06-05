@@ -1,52 +1,46 @@
 <!-- This gets moved to a row on demand -->
-<div id="original_column_tool_shed" style="display:none">
-  <span id="insert_tool">    
-    <table id="insert_menu" cellspacing="0" cellpadding="0">
-      <tr class="off">
-        <th><a href="#">INSERT</a></th>
-        <td class="red"><%= link_to_function "text", "Column.insert_text()" %></td>
-        <td class="orange"><%= link_to_function "photo", "Column.insert_photo()" %></td>
-        <td class="yellow"><%= link_to_function "video", "Column.insert_video()" %></td>
-        <td class="green"><%= link_to_function "audio", "Column.insert_audio()" %></td>
-        <td class="blue"><%= link_to_function "link", "Column.insert_link()" %></td>
-        <td class="violet"><%= link_to_function "special", "Column.insert_special()" %></td>        
-      </tr>
-    </table>
-    <table cellspacing="0" cellpadding="0">
-      <tr class="off">
-        <th class=""><%= link_to_function "[OK]", "ColumnTool.close_all()" %></th>        
-      </tr>    
-    </table>
-  </span>
-</div>
-
-<div id="original_row_tool_shed" style="display:none">
-  <div id="all_row_tools">    
-    <span id="top_tool">    
-      <table id="top_menu" cellspacing="0" cellpadding="0">
+<div id="home_column_tool_shed" style="display:none">
+  <div id="all_column_tools">      
+    <div id="insert_tool">    
+      <table id="insert_menu" cellspacing="0" cellpadding="0">
         <tr class="off">
-          <th><a href="#">FORMAT</a></th>
-          <td class="<%= Row::FULL %>"><a href="#">full</a></td>
-          <td class="<%= Row::HALVES %>"><a href="#">halves</a></td>
-          <td class="<%= Row::THIRDS %>"><a href="#">thirds</a></td>
-          <td class="<%= Row::LEFT %>"><a href="#">left</a></td>
-          <td class="<%= Row::RIGHT %>"><a href="#">right</a></td>
+          <th><a href="#">INSERT</a></th>
+          <td class="red"><%= link_to_function "text", "Column.insert_text()" %></td>
+          <td class="orange"><%= link_to_function "photo", "Column.insert_photo()" %></td>
+          <td class="yellow"><%= link_to_function "video", "Column.insert_video()" %></td>
+          <td class="green"><%= link_to_function "audio", "Column.insert_audio()" %></td>
+          <td class="blue"><%= link_to_function "link", "Column.insert_link()" %></td>
+          <td class="violet"><%= link_to_function "special", "Column.insert_special()" %></td>        
         </tr>
       </table>
-    </span>
-    <span id="left_tool">    
-      <table id="left_menu" cellspacing="0" cellpadding="0">
-        <tr><td class="up"><%= link_to_function "^^", "Row.up()" %></td></tr>
-        <tr><td class="delete"><%= link_to_function "[X]", "Row.delete()" %></td></tr>
-        <tr><td class="down"><%= link_to_function "vv", "Row.down()" %></td></tr>
-      </table>
-    </span>
-    <span id="bottom_tool">    
-      <table id="bottom_menu" cellspacing="0" cellpadding="0">
-        <tr class="">
-          <td class=""><%= link_to_function "Add row", "Row.insert_below()" %></td>
+      <table cellspacing="0" cellpadding="0">
+        <tr class="off">
+          <th class=""><%= link_to_function "[OK]", "ColumnTool.close_all()" %></th>        
         </tr>    
       </table>
-    </span>
+    </div>
   </div>
 </div>
+
+<div id="home_row_tool_shed" style="display:none">
+  <div id="all_row_tools">    
+    <div id="top_tool" class="tool">    
+      <ul id="top_menu" cellspacing="0" cellpadding="0">
+          <li class="<%= Row::FULL %>"><%= link_to_function "full", "Row.format(this)" %></li>
+          <li class="<%= Row::HALVES %>"><%= link_to_function "halves", "Row.format(this)" %></li>
+          <li class="<%= Row::THIRDS %>"><%= link_to_function "thirds", "Row.format(this)" %></li>
+          <li class="<%= Row::LEFT %>"><%= link_to_function "left", "Row.format(this)" %></li>
+          <li class="<%= Row::RIGHT %>"><%= link_to_function "right", "Row.format(this)" %></li>
+      </ul>
+    </div>
+    <div id="left_tool" class="tool">    
+      <ul id="left_menu" cellspacing="0" cellpadding="0">
+        <li class="up"><%= link_to_function "^^", "Row.up()" %></li>
+        <li class="drop"><%= link_to_function "x", "Row.drop()" %></li>
+        <li class="insert"><%= link_to_function "+", "Row.insert()" %></li>
+        <li class="down"><%= link_to_function "vv", "Row.down()" %></li>
+      </ul>
+    </div>
+  </div>
+</div>
+

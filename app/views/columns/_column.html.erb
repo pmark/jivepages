@@ -1,3 +1,4 @@
-<div id="<%= dom_id(column) %>" class="yui-u <%= 'first' if first %>">
+<% column ||= @column %>
+<div id="<%= dom_id(column) %>" class="yui-u <%= 'first' if column.first? %>">
   <%= render :partial => "columns/content", :locals => {:column => column} %>
 </div>
