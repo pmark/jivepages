@@ -5,7 +5,7 @@
 <%= rows_for(:body, @jivepage) %>
 
 <% content_for(:footer) do %>
-<blockquote>
+<!-- <blockquote> -->
   <%= rows_for(:footer, @jivepage) %>  
   <%= link_to('View this page', jivepage_path(@jivepage)) %>
   <br/>
@@ -20,7 +20,7 @@
 <% form_for Jivepage.new, :jivepage do %>
   <%= submit_tag "New page" %>
 <% end %>  
-</blockquote>  
+<!-- </blockquote>   -->
 <%= render :partial => "jivepages/tool_shed" %>
 <% end %>
 

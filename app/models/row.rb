@@ -112,7 +112,7 @@ class Row < ActiveRecord::Base
       add_count.times do
         new_column = self.columns.create(:jivepage => jivepage)
         new_column.create_box!("textblock", 1, 
-            :content => "Click here to change text.")
+            :content => "Click here to change text.") if new_column.first?
       end
     end
 

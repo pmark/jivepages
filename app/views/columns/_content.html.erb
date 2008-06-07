@@ -1,6 +1,7 @@
 <% column ||= @column %>
 <div id="<%= dom_id(column, "content") %>" class="column">
   <%= tool_shed(column) %>
+  <% if column.boxes.blank? %>&nbsp; &nbsp;<% end %>
   <%= render :partial => "boxes/box", :collection => column.boxes %>  
 </div>
 

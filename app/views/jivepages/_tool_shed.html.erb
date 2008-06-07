@@ -1,5 +1,5 @@
 <!-- This gets moved to a row on demand -->
-<div id="home_column_tool_shed" style="display:none">
+<div id="home-column_tool_shed" style="display:none">
   <div id="all_column_tools">      
     <div id="insert_tool">    
       <table id="insert_menu" cellspacing="0" cellpadding="0">
@@ -22,23 +22,19 @@
   </div>
 </div>
 
-<div id="home_row_tool_shed" style="display:none">
-  <div id="all_row_tools">    
-    <div id="top_tool" class="tool">    
-      <ul id="top_menu" cellspacing="0" cellpadding="0">
-          <li class="<%= Row::FULL %>"><%= link_to_function "full", "Row.format(this)" %></li>
-          <li class="<%= Row::HALVES %>"><%= link_to_function "halves", "Row.format(this)" %></li>
-          <li class="<%= Row::THIRDS %>"><%= link_to_function "thirds", "Row.format(this)" %></li>
-          <li class="<%= Row::LEFT %>"><%= link_to_function "left", "Row.format(this)" %></li>
-          <li class="<%= Row::RIGHT %>"><%= link_to_function "right", "Row.format(this)" %></li>
-      </ul>
-    </div>
-    <div id="left_tool" class="tool">    
-      <ul id="left_menu" cellspacing="0" cellpadding="0">
-        <li class="up"><%= link_to_function "^^", "Row.up()" %></li>
-        <li class="drop"><%= link_to_function "x", "Row.drop()" %></li>
+<div id="home-row_tool_shed" style="display:none;">
+  <div id="all_row_tools">
+    <div id="row_tool" class="tool">    
+      <ul id="row_menu">
+        <li class="up"><%= link_to_function "&#8593", "Row.up()" %></li>
+        <li class="down"><%= link_to_function "&#8595", "Row.down()" %></li>
         <li class="insert"><%= link_to_function "+", "Row.insert()" %></li>
-        <li class="down"><%= link_to_function "vv", "Row.down()" %></li>
+        <li class="drop"><%= link_to_function "X", "Row.drop()" %></li>
+        <li class="<%= Row::FULL %>"><%= link_to_function "full", "Row.format(this)" %></li>
+        <li class="<%= Row::HALVES %>"><%= link_to_function "halves", "Row.format(this)" %></li>
+        <li class="<%= Row::THIRDS %>"><%= link_to_function "thirds", "Row.format(this)" %></li>
+        <li class="<%= Row::LEFT %>"><%= link_to_function "left", "Row.format(this)" %></li>
+        <li class="<%= Row::RIGHT %>"><%= link_to_function "right", "Row.format(this)" %></li>
       </ul>
     </div>
   </div>

@@ -146,7 +146,9 @@ class RowsController < ApplicationController
         format.html { redirect_to(rows_url) }
         format.xml  { head :ok }
         format.js   { 
-          page.call "Row.fix_first", row.section
+          render :update do |page|
+            page.call "Row.fix_first", row.section
+          end
         } 
       end
     rescue

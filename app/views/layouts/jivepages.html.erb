@@ -4,16 +4,23 @@
 <head>
   <% @jivepage ||= Jivepage.new({:sidebar => "none"}) %>
   <title><%= h(@jivepage && @jivepage.title ? @jivepage.title : controller.action_name) %> : jivepages</title>
+  
   <% asset_path = "/plugin_assets/jivepages" %>
-  <link rel="stylesheet" href="<%= asset_path %>/stylesheets/reset-fonts-grids.yui251.css" type="text/css">
-  <link rel="stylesheet" href="<%= asset_path %>/stylesheets/jivepages.css" type="text/css">
+  <% %w{reset-fonts-grids.yui251 tabs jivepages}.each do |lib| %>
+  <link rel="stylesheet" href="<%= asset_path %>/stylesheets/<%= lib %>.css" type="text/css">
+  <% end %>  
   <%= javascript_include_tag :defaults %>
-  <%= javascript_include_tag "#{asset_path}/javascripts/util", "#{asset_path}/javascripts/jivepages" %>  
+  <% %w{util jivepages jquery jquery/ui.core.js jquery/ui.tabs.js}.each do |lib| %>
+  <%= javascript_include_tag "#{asset_path}/javascripts/#{lib}" %>
+  <% end %>  
+  <%= javascript_tag %{
+    var $j = jQuery.noConflict();
+  } %>
 </head>
 
 <body>
   <div id="<%= @jivepage.layout || "doc" %>" class="jivepage <%= @jivepage.skin %> <%= controller.action_name %>">
-    <%= render :partial => "jivepages/structure_controls" if controller.action_name == "edit" %>
+    <%= render :partial => "jivepages/menu" if controller.action_name == "edit" %>
     <div id="hd">
       <div id="header_section" class="yui-b">
         <%= yield :header %>
