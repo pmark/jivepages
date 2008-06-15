@@ -137,27 +137,7 @@ describe JivepagesController do
     it "should be successful" do
       do_get
       response.should be_success
-    end
-  
-    it "should render new template" do
-      do_get
-      response.should render_template('new')
-    end
-  
-    it "should create an new jivepage" do
-      Jivepage.should_receive(:new).and_return(@jivepage)
-      do_get
-    end
-  
-    it "should not save the new jivepage" do
-      @jivepage.should_not_receive(:save)
-      do_get
-    end
-  
-    it "should assign the new jivepage for the view" do
-      do_get
-      assigns[:jivepage].should equal(@jivepage)
-    end
+    end  
   end
 
   describe "handling GET /jivepages/1/edit" do

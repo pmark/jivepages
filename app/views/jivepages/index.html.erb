@@ -17,6 +17,7 @@
 <% content_for(:footer) do %>
   <blockquote>
     <% form_for :jivepage do %>
+      <%= hidden_field_tag "jivepage[site_id]", nil %>
       <%= submit_tag "Make your own page right now" %>
     <% end %>
   </blockquote>

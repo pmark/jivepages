@@ -3,8 +3,8 @@ module JivepagesHelper
   #
   #
   def dom_id(o, suffix=nil)
-    return unless o
-    o.dom_id + (suffix ? "-#{suffix}" : '')    
+    return unless o     
+    o.class.name.underscore + (suffix ? "-#{suffix}" : '')    
   end
   
   def render_one_cell(cell, options={}, &block)   

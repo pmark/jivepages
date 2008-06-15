@@ -2,7 +2,8 @@ class Jivepage < ActiveRecord::Base
   include ActionView::Helpers::DateHelper
   include ActionView::Helpers::TextHelper
 
-  # belongs_to :user
+  validates_presence_of :user
+  belongs_to :user
   has_many :contributorships, :dependent => :delete_all
   has_many :contributors, :through => :contributorships, :source => :user
   has_many :rows, :order => "position ASC" do 
@@ -20,6 +21,7 @@ class Jivepage < ActiveRecord::Base
     end
   end
   has_many :edit_sessions, :dependent => :destroy
+  belongs_to :site
   # has_many :editors, :through => :edit_sessions, :source => :user
   
   before_save :restructure
@@ -40,23 +42,41 @@ class Jivepage < ActiveRecord::Base
   def setup
     row = self.rows.create!
   end
+
+  def self.anonymous_user
+    Jivepage.ensure_user_is_defined!
+    user = User.find_by_login("anonymous")
+    unless user
+      password = Digest::SHA1.hexdigest(Time.now.to_s.split(//).sort_by {rand}.join)
+      user = User.create!(:login => "anonymous", :email => "anonymous@jivepages.com",
+        :password => password, :password_confirmation => password)
+      user.activate
+    end
+    user
+  end
   
-  def self.uses_users?
-    defined?(User)
+  def Jivepage.ensure_user_is_defined!
+    raise "Jivepages plugin requires that a User class is defined." unless self.user_is_defined?
+  end
+
+  def self.user_is_defined?
+    # TODO: make the user class configurable
+    # defined?(User)
+    true
   end
   
   def editable_by?(user)
-    return true unless Jivepage.uses_users?
+    Jivepage.ensure_user_is_defined!
     user && (user.id == user_id || user.contributor_to?(self))
   end
   
   def being_edited_by?(user)
-    return true unless Jivepage.uses_users?
+    Jivepage.ensure_user_is_defined!
     being_edited? and edit_sessions.exists?(:user_id => user.id)
   end
   
   def being_edited?
-    return true unless Jivepage.uses_users?
+    Jivepage.ensure_user_is_defined!
     !edit_sessions.blank?
   end
 
@@ -65,7 +85,7 @@ class Jivepage < ActiveRecord::Base
   # ...although only pmark is editing it currently.
   # ...There are 3 people currently editing this page.
   def heading
-    return "" unless Jivepage.uses_users?
+    Jivepage.ensure_user_is_defined!
     
     owner = self.user || User.find_anonymous
     who = owner.summary    

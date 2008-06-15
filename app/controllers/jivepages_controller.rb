@@ -28,9 +28,37 @@ class JivepagesController < ApplicationController
   def new
   end
   
+  # Automatically create a site if none is given.
+  # Anonymous user owns all pages if there's no logged in user.
   def create
     begin
-      @jivepage = jivepage_scope.create_and_setup(params[:jivepage])
+      @user = current_owner      
+      begin
+        site_id = params[:jivepage][:site_id]
+        raise "Create a site" if site_id.blank?
+        site = Site.find(site_id, :conditions => {:user_id => @user.id})
+      rescue
+        begin
+          logger.debug "\n\nCreating site with user_id: #{@user.id}\n\n"
+          site = Site.new
+          site.user = @user
+          site.save!
+        rescue
+          logger.debug "\n\nFAIL! #{$!}\n\n"
+          @jivepage = Jivepage.new
+          @jivepage.errors.add_to_base("Unable to create site: #{$!}, user: #{@user.inspect}")
+          flash[:notice] = 'Unable to create site'
+          respond_to do |format|
+            format.html { render :action => "new" }
+            format.xml  { render :xml => @jivepage.errors, :status => :unprocessable_entity }
+          end
+          return
+        end
+      end
+      
+      @jivepage = site.jivepages.create_and_setup(params[:jivepage].merge(
+          :user => @user, :site => site))
+          
       respond_to do |format|
         flash[:notice] = 'Page created'
         format.html { redirect_to(edit_jivepage_path(@jivepage)) }
@@ -107,13 +135,6 @@ class JivepagesController < ApplicationController
         return false
       end
     end
-    
-    #
-    #
-    #
-    def load_box_classes
-      # Box.subclasses
-    end
 
     #
     #
@@ -122,20 +143,13 @@ class JivepagesController < ApplicationController
       @jivepage.boxes.each do |box|
         self.append_view_path(box.plugin_view_path)
       end
-    end
-    
+    end    
     
     #
     #
     #
     def current_owner
-      Jivepage.uses_users? ? current_user : Jivepage
+      current_user || Jivepage.anonymous_user
     end
 
-    #
-    #
-    #
-    def jivepage_scope
-      Jivepage.uses_users? ? current_owner.jivepages : Jivepage
-    end
 end

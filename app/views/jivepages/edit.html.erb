@@ -5,22 +5,7 @@
 <%= rows_for(:body, @jivepage) %>
 
 <% content_for(:footer) do %>
-<!-- <blockquote> -->
   <%= rows_for(:footer, @jivepage) %>  
-  <%= link_to('View this page', jivepage_path(@jivepage)) %>
-  <br/>
-<% if @jivepage.editable_by?(page_user) %>
-<%= link_to('Delete this page', jivepage_path(@jivepage), :method => :delete,
-    :confirm => 'Are you sure?') %>
-<br/>
-<% end %>
-<%= link_to 'All pages', jivepages_path %>
-<br/>
-<br/>
-<% form_for Jivepage.new, :jivepage do %>
-  <%= submit_tag "New page" %>
-<% end %>  
-<!-- </blockquote>   -->
-<%= render :partial => "jivepages/tool_shed" %>
+  <%= render :partial => "jivepages/tool_shed" %>
 <% end %>
 
